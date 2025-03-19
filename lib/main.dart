@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 void main() {
   runApp(const MyApp());
@@ -20,6 +21,17 @@ class MyApp extends StatelessWidget {
 
 class PortfolioScreen extends StatelessWidget {
   const PortfolioScreen({super.key});
+
+  Future<void> _launchURL(String urlString, BuildContext context) async {
+    final Uri url = Uri.parse(urlString);
+    if (!await launchUrl(url)) {
+      if (context.mounted) {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(const SnackBar(content: Text('Could not launch link')));
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -142,7 +154,11 @@ class PortfolioScreen extends StatelessWidget {
                 width: double.infinity,
                 height: 50,
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed:
+                      () => _launchURL(
+                        'https://www.facebook.com/SlanhOunNeverChange',
+                        context,
+                      ),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.blue,
                     shape: RoundedRectangleBorder(
@@ -165,7 +181,11 @@ class PortfolioScreen extends StatelessWidget {
                 width: double.infinity,
                 height: 50,
                 child: OutlinedButton(
-                  onPressed: () {},
+                  onPressed:
+                      () => _launchURL(
+                        'https://www.linkedin.com/in/ly-kimann-5714a6357?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app',
+                        context,
+                      ),
                   style: OutlinedButton.styleFrom(
                     side: const BorderSide(color: Colors.blue),
                     shape: RoundedRectangleBorder(
